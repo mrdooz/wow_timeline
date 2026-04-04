@@ -1,0 +1,328 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+}
+
+#app {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #c4a000;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+#report-url {
+    flex: 1;
+    padding: 10px 14px;
+    background: #16213e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+#report-url:focus {
+    outline: none;
+    border-color: #c4a000;
+}
+
+button {
+    padding: 10px 20px;
+    background: #c4a000;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d4b000;
+}
+
+#fight-select {
+    margin-bottom: 16px;
+}
+
+#fight-dropdown {
+    margin-left: 8px;
+    padding: 8px 12px;
+    background: #16213e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+#loading {
+    color: #c4a000;
+    font-size: 16px;
+    padding: 20px 0;
+}
+
+#error {
+    color: #ff6b6b;
+    padding: 10px;
+    background: rgba(255, 50, 50, 0.1);
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+#timeline-container {
+    cursor: grab;
+    user-select: none;
+}
+
+#timeline-container:active {
+    cursor: grabbing;
+}
+
+#fight-header {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #16213e;
+    border-radius: 4px;
+}
+
+#fight-header h2 {
+    color: #c4a000;
+    font-size: 1.2em;
+}
+
+#fight-header .meta {
+    color: #888;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* Damage chart */
+#damage-chart {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 8px;
+}
+
+/* Damage sources */
+#damage-sources {
+    position: relative;
+    margin-bottom: 12px;
+    padding-left: 200px;
+    padding-right: 10px;
+}
+
+.damage-source-lane {
+    position: relative;
+    height: 22px;
+    margin-bottom: 2px;
+}
+
+.damage-source-segment {
+    position: absolute;
+    height: 100%;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    min-width: 4px;
+    cursor: default;
+    opacity: 0.85;
+}
+
+.damage-source-segment:hover {
+    opacity: 1;
+    z-index: 5;
+    outline: 1px solid #fff;
+}
+
+a.damage-source-segment {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.damage-source-segment .seg-label {
+    padding: 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.damage-source-segment .spell-icon {
+    border: none;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* Cast timeline */
+#cast-timeline {
+    position: relative;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.cast-lane {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #222;
+    min-height: 32px;
+    position: relative;
+}
+
+.cast-lane .lane-label {
+    width: 200px;
+    min-width: 200px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #aaa;
+    background: #16213e;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cast-lane .lane-label a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+.cast-lane .lane-label a:hover {
+    color: #e0e0e0;
+}
+
+.spell-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid #444;
+}
+
+.cast-lane .lane-events {
+    flex: 1;
+    position: relative;
+    height: 28px;
+}
+
+.cast-marker {
+    position: absolute;
+    width: 6px;
+    height: 20px;
+    top: 4px;
+    border-radius: 2px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.cast-marker:hover {
+    opacity: 1;
+    transform: scaleX(1.5);
+}
+
+.cast-marker .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.cast-marker:hover .tooltip {
+    display: block;
+}
+
+/* Time axis */
+.time-axis {
+    position: relative;
+    height: 24px;
+    margin-left: 200px;
+    border-top: 1px solid #333;
+    margin-bottom: 4px;
+}
+
+.time-tick {
+    position: absolute;
+    top: 0;
+    font-size: 10px;
+    color: #666;
+    transform: translateX(-50%);
+    padding-top: 4px;
+}
+
+.time-tick::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 4px;
+    background: #444;
+}
+
+/* Deaths */
+#death-list {
+    margin-top: 12px;
+}
+
+#death-list h3 {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.death-entry {
+    font-size: 13px;
+    color: #ccc;
+    padding: 2px 0;
+}
+
+.death-entry .death-time {
+    color: #888;
+    font-family: monospace;
+    margin-right: 8px;
+}
+
+.death-entry .death-name {
+    color: #ff6b6b;
+}

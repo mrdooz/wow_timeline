@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raid Timeline</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Raid Boss Timeline</h1>
+
+        <div class="controls">
+            <input type="text" id="report-url" placeholder="Paste WarcraftLogs report URL or code..."
+                   spellcheck="false">
+            <button id="load-btn" onclick="loadReport()">Load</button>
+        </div>
+
+        <div id="fight-select" class="hidden">
+            <label for="fight-dropdown">Select fight:</label>
+            <select id="fight-dropdown" onchange="loadTimeline()"></select>
+        </div>
+
+        <div id="loading" class="hidden">Loading...</div>
+        <div id="error" class="hidden"></div>
+        <div id="timeline-container" class="hidden">
+            <div id="fight-header"></div>
+            <canvas id="damage-chart"></canvas>
+            <div id="damage-sources"></div>
+            <div id="cast-timeline"></div>
+            <div id="death-list"></div>
+        </div>
+    </div>
+
+    <script src="/static/timeline.js"></script>
+    <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+    <script>
+        // Configure WoWHead tooltips
+        var defined = typeof whTooltips !== "undefined";
+        if (!defined) var whTooltips = {};
+        whTooltips.colorLinks = false;
+        whTooltips.iconizeLinks = false;
+        whTooltips.renameLinks = false;
+    </script>
+</body>
+</html>

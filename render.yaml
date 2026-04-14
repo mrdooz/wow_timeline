@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: wow-timeline
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: WCL_CLIENT_ID
+        sync: false
+      - key: WCL_CLIENT_SECRET
+        sync: false
+      # Free tier: cache lives in /tmp and is wiped on restart / redeploy.
+      # Upgrade to Starter ($7/mo) and uncomment the `disk` block below
+      # (plus change CACHE_DIR to /var/data/cache) for a persistent cache.
+      - key: CACHE_DIR
+        value: /tmp/cache
+    # disk:
+    #   name: cache
+    #   mountPath: /var/data
+    #   sizeGB: 1

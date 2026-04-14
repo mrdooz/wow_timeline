@@ -7,7 +7,7 @@ from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
-CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache")
+CACHE_DIR = os.environ.get("CACHE_DIR") or os.path.join(os.path.dirname(__file__), "cache")
 
 # --- WarcraftLogs API Client ---
 
@@ -22,6 +22,12 @@ TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 
 def load_credentials():
     global CLIENT_ID, CLIENT_SECRET
+    env_id = os.environ.get("WCL_CLIENT_ID")
+    env_secret = os.environ.get("WCL_CLIENT_SECRET")
+    if env_id and env_secret:
+        CLIENT_ID = env_id
+        CLIENT_SECRET = env_secret
+        return
     with open("credentials.json") as f:
         creds = json.load(f)
     CLIENT_ID = creds["client_id"]
@@ -327,7 +333,8 @@ def api_timeline():
         return jsonify({"error": str(e)}), 500
 
 
+load_credentials()
+
 if __name__ == "__main__":
-    load_credentials()
     print(f"Loaded WarcraftLogs client: {CLIENT_ID}")
     app.run(debug=True, port=5000)
